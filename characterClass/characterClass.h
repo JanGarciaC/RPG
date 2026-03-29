@@ -1,22 +1,33 @@
 #pragma once
 #include "../utilities/utilities.h"
+#include "../equipment/equipment.h"
 #include <string>
 #include <iostream>
 
+/////////////////////////////////
+// Base class Definition
+/////////////////////////////////
 class baseCharacter
 {
 private:
+	// Basic character info
     std::string name;
     int characterClass;
+	int level;
+	// Character stats
     int stamina, strength, agility, intelligence;
     int maxHealth, currentHealth;
     float speed, evasion, criticalChance;
+	// Inventory
+	int gold;
+	weapon equippedWeapon;
+	armor equippedArmor;
 
 public:
-    baseCharacter() : name(""), characterClass(0),
+	baseCharacter() : name(""), characterClass(0), level(1),
         stamina(0), strength(0), agility(0), intelligence(0),
         maxHealth(50), currentHealth(50), speed(0), evasion(0), 
-        criticalChance(0) {}
+        criticalChance(0), gold(25){}
 
     void defineName(const std::string& n) { name = n; }
     void setCharacterClass(int c) { characterClass = c; }
@@ -31,13 +42,24 @@ public:
     void setStrength(int x) { strength = x; }
     void setAgility(int x) { agility = x; }
     void setIntelligence(int x) { intelligence = x; }
+    void modifyHealth(int x) { currentHealth += x; if (currentHealth > maxHealth) currentHealth = maxHealth; if (currentHealth < 0) currentHealth = 0; }
+	void setEquippedWeapon(const weapon& w) { equippedWeapon = w; }
+	void setEquippedArmor(const armor& a) { equippedArmor = a; }
+	void addGold(int x) { gold += x; }
 
+	int getLevel() const { return level; }
 	int getStamina() const { return stamina; }
 	int getStrength() const { return strength; }
 	int getAgility() const { return agility; }
 	int getIntelligence() const { return intelligence; }
 	int getMaxHealth() const { return maxHealth; }
 	int getCurrentHealth() const { return currentHealth; }
+    int getGold() const { return gold; }
+	float getSpeed() const { return speed; }
+	float getEvasion() const { return evasion; }
+	float getCriticalChance() const { return criticalChance; }
+	armor getEquippedArmor() const { return equippedArmor; }
+	weapon getEquippedWeapon() const { return equippedWeapon; }
 
     virtual void calculateDerivedStats()
     {
@@ -48,50 +70,47 @@ public:
         speed = 20 + agility;
     }
 
-    virtual void baseattack() {};
+	virtual int baseAttack() { return 0; }
+	virtual void startEquipment() {}
+	virtual void levelUp() {}
+	virtual ~baseCharacter() {}
 };
 
-struct weapon
-{
-	std::string name;
-	int damage;
-	int durability;
-	float criticalMultiplier;
-};
-
+/////////////////////////////////
+// classWarrior Definition
+/////////////////////////////////
 class classWarrior : public baseCharacter
 {
 private:
-	weapon startingWeapon = { "Sword", 10, 100, 1.3 };
 
 public:
 	classWarrior(baseCharacter& other) : baseCharacter(other) {}
 
-	void baseattack() override 
-	{
-		std::cout << getName() << " swings a sword! Damage: " << getStrength() + startingWeapon.damage << std::endl;
-	}
+    int baseAttack() override;
+	void startEquipment() override;
 };
 
+/////////////////////////////////
+// classRogue Definition
+/////////////////////////////////
 class classRogue : public baseCharacter
 {
 private:
-	weapon startingWeapon = { "Dagger", 8, 100, 1.8 };
 
 public:
 	classRogue(baseCharacter& other) : baseCharacter(other) {}
 
-	void baseattack() override 
-	{
-		std::cout << getName() << " strikes from the shadows! Damage: " << getAgility() + startingWeapon.damage << std::endl;
-	}
+    int baseAttack() override;
+    void startEquipment() override;
 };
 
+/////////////////////////////////
+// classMage Definition
+/////////////////////////////////
 class classMage : public baseCharacter
 {
 private:
 	int currentMana, maxMana;
-	weapon startingWeapon = { "Staff", 10, 100, 1 };
 
 public:
 	classMage(baseCharacter& other) : baseCharacter(other), currentMana(50), maxMana(50) {}
@@ -106,10 +125,8 @@ public:
 		currentMana = maxMana;
 	}
 
-	void baseattack() override 
-	{
-		std::cout << getName() << " casts a spell! Damage: " << getIntelligence() + startingWeapon.damage << std::endl;
-	}
+    int baseAttack() override;
+    void startEquipment() override;
 };
 
 baseCharacter* characterCreation();

@@ -10,7 +10,7 @@ int main()
 
 	system("cls");
 
-    player->baseattack();
+    cout << player->getName() << " attacked and did " << player->baseAttack() << " damage" << endl;
 
     delete player;
     return 0;

@@ -27,3 +27,60 @@ baseCharacter* characterCreation()
     if (temp.getCharacterClass() == 2) return new classRogue(temp);
     return new classMage(temp);
 }
+
+void classWarrior::startEquipment()
+{
+	weapon startingSword("Rusty Sword", 10, 50, 1.2f, 1, 5);
+	armor startingArmor("Rusty Chainmail", 20, 50, 1, 1, 5);
+
+	setEquippedArmor(startingArmor);
+	setEquippedWeapon(startingSword);
+}
+
+void classRogue::startEquipment()
+{
+    weapon startingDagger("Rusty Dagger", 8, 50, 1.4f, 2, 5);
+    armor startingArmor("Old Leather Armor", 10, 50, 1.4f, 2, 5);
+
+    setEquippedArmor(startingArmor);
+    setEquippedWeapon(startingDagger);
+}
+
+void classMage::startEquipment()
+{
+    weapon startingStaff("Old Staff", 8, 50, 1, 3, 5);
+    armor startingRobe("Old Robe", 5, 50, 1.2f, 3, 5);
+
+    setEquippedArmor(startingRobe);
+    setEquippedWeapon(startingStaff);
+}
+
+int classWarrior::baseAttack()
+{
+    int damage = rand() % 4*getLevel() + getStrength() + getEquippedWeapon().getDamage();
+
+    if (rand() % 10000 < 100 * (getCriticalChance() * getEquippedWeapon().getCritModifier()))
+        damage *= 2;
+
+    return damage;
+}
+
+int classRogue::baseAttack()
+{
+    int damage = rand() % 4*getLevel() + getAgility() + getEquippedWeapon().getDamage();
+
+    if (rand() % 10000 < 100*(getCriticalChance() * getEquippedWeapon().getCritModifier()))
+        damage *= 2;
+
+    return damage;
+}
+
+int classMage::baseAttack()
+{
+    int damage = rand() % 2*getLevel() + getIntelligence() + getEquippedWeapon().getDamage();
+
+    if (rand() % 10000 < 100*(getCriticalChance() * getEquippedWeapon().getCritModifier()))
+        damage *= 2;
+
+    return damage;
+}
