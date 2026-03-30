@@ -6,6 +6,12 @@
 
 using namespace std;
 
+baseCharacter* initializeInventory(baseCharacter* character)
+{
+    character->startEquipment();
+    return character;
+}
+
 baseCharacter* characterCreation()
 {
     system("cls");
@@ -22,9 +28,9 @@ baseCharacter* characterCreation()
     classMenu(temp);  
     defineStatMenu(temp);
 
-    if (temp.getCharacterClass() == 1) return new classWarrior(temp);
-    if (temp.getCharacterClass() == 2) return new classRogue(temp);
-    return new classMage(temp);
+    if (temp.getCharacterClass() == 1) return initializeInventory(new classWarrior(temp));
+    if (temp.getCharacterClass() == 2) return initializeInventory(new classRogue(temp));
+    return initializeInventory(new classMage(temp));
 }
 
 void classWarrior::startEquipment()

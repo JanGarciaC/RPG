@@ -10,7 +10,7 @@ int main()
 
 	system("cls");
 
-    cout << player->getName() << " attacked and did " << player->baseAttack() << " damage" << endl;
+	standardGameMenu("Welcome to the world of RPG! Your adventure begins now...");
 
     delete player;
     return 0;

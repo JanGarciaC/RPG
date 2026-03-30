@@ -17,7 +17,7 @@ baseCharacter* startMenu()
 
     while (true)
     {
-        int choice = navigateMenu(options, "WELCOME");
+        int choice = navigateMenu(options, "WELCOME", "");
 
         switch (choice)
         {
@@ -45,7 +45,7 @@ void classMenu(baseCharacter& character)
         "Mage: Smart sorcerer capable of casting spells (+1 Intelligence)"
     };
 
-    int choice = navigateMenu(options, "CLASS MENU");
+    int choice = navigateMenu(options, "CLASS MENU", "");
     character.setCharacterClass(choice + 1);
 
     system("cls");
@@ -60,60 +60,97 @@ void classMenu(baseCharacter& character)
 
 void defineStatMenu(baseCharacter& character)
 {
+    system("cls");
     const int TOTAL_POINTS = 40;
     int remainingPoints = TOTAL_POINTS;
 
-    int tempStamina = 0, tempStrength = 0, tempAgility = 0, tempIntelligence = 0;
-    vector<string> stats = { "STAMINA", "STRENGTH", "AGILITY", "INTELLIGENCE" };
-    int* values[4] = { &tempStamina, &tempStrength, &tempAgility, &tempIntelligence };
-
-    int selected = 0;
+    vector<string> statNames = { "STAMINA", "STRENGTH", "AGILITY", "INTELLIGENCE" };
+    vector<int> values(4, 0);
 
     while (true)
     {
-        system("cls");
-
-		printHeader("STAT ALLOCATION");
-
-        cout << "Allocate your stat points (Remaining: " << remainingPoints << ")" << endl << endl;
-        for (int i = 0; i < 4; i++)
-            cout << (i == selected ? "> " : "  ") << stats[i] << ": " << *values[i] << endl;
-
-        cout << endl << "UP/DOWN to select, +/- to adjust, ENTER to confirm when all points assigned." << endl;
-
-        int key = _getch();
-        if (key == 224)
+        vector<string> options;
+        for (int i = 0; i < statNames.size(); i++)
         {
-            key = _getch();
-            if (key == 72) selected = (selected + 3) % 4; // UP
-            if (key == 80) selected = (selected + 1) % 4; // DOWN
+            options.push_back(statNames[i] + ": " + to_string(values[i]));
         }
-        else if (key == '+')
-        {
-            if (remainingPoints > 0 && *values[selected] < 20)
+
+        string msg = "Remaining: " + to_string(remainingPoints) +
+            "\n+ / - to modify\nENTER when ready";
+        int result = navigateMenuAdvanced(
+            [&]()  
             {
-                (*values[selected])++;
-                remainingPoints--;
-            }
-        }
-        else if (key == '-')
-        {
-            if (*values[selected] > 0)
+                vector<string> options;
+                for (int i = 0; i < statNames.size(); i++)
+                {
+                    options.push_back(statNames[i] + ": " + to_string(values[i]));
+                }
+                return options;
+            },
+            "STAT ALLOCATION",
+            [&]() 
             {
-                (*values[selected])--;
-                remainingPoints++;
+                return "Remaining points: " + to_string(remainingPoints) + "\n+ / - to modify";
+            },
+            [&](int selected, MenuAction action)  // onAction
+            {
+                if (action == ACTION_PLUS)
+                {
+                    if (remainingPoints > 0 && values[selected] < 20)
+                    {
+                        values[selected]++;
+                        remainingPoints--;
+                    }
+                }
+                else if (action == ACTION_MINUS)
+                {
+                    if (values[selected] > 0)
+                    {
+                        values[selected]--;
+                        remainingPoints++;
+                    }
+                }
             }
-        }
-        else if (key == 13 && remainingPoints == 0)
+        );
+
+        if (remainingPoints == 0)
+            break;
+    }
+
+    character.setStamina(values[0]);
+    character.setStrength(values[1]);
+    character.setAgility(values[2]);
+    character.setIntelligence(values[3]);
+
+    character.calculateDerivedStats();
+}
+
+void standardGameMenu(string additionalMessage)
+{
+    vector<string> options = {
+    "Move",
+    "Check Character",
+	"Check Inventory",
+    "Exit"
+    };
+
+    while (true)
+    {
+        int choice = navigateMenu(options, "WORLD MAP", additionalMessage);
+
+        switch (choice)
         {
-            break; 
+        case 0:
+			// Placeholder for move functionality
+        case 1:
+			// Placeholder for character check functionality
+        case 2:
+			// Placeholder for inventory check functionality
+        case 3:
+            cout << "Exiting game..." << endl;
+            Sleep(500);
+			exit(0);
         }
     }
 
-    character.setStamina(tempStamina);
-    character.setStrength(tempStrength);
-    character.setAgility(tempAgility);
-    character.setIntelligence(tempIntelligence);
-
-    character.calculateDerivedStats();
 }

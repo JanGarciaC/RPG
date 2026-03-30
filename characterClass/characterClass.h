@@ -130,3 +130,4 @@ public:
 };
 
 baseCharacter* characterCreation();
+baseCharacter* initializeInventory(baseCharacter* character);
