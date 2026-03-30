@@ -58,7 +58,7 @@ void classMenu(baseCharacter& character)
     }
 }
 
-void statMenu(baseCharacter& character)
+void defineStatMenu(baseCharacter& character)
 {
     const int TOTAL_POINTS = 40;
     int remainingPoints = TOTAL_POINTS;

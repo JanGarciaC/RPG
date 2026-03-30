@@ -3,4 +3,4 @@
 
 baseCharacter* startMenu();
 void classMenu(baseCharacter& character);
-void statMenu(baseCharacter& character);
+void defineStatMenu(baseCharacter& character);

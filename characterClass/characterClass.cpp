@@ -20,9 +20,8 @@ baseCharacter* characterCreation()
     temp.defineName(name);
 
     classMenu(temp);  
-    statMenu(temp);
+    defineStatMenu(temp);
 
-    // Creem subclasse final
     if (temp.getCharacterClass() == 1) return new classWarrior(temp);
     if (temp.getCharacterClass() == 2) return new classRogue(temp);
     return new classMage(temp);
@@ -30,8 +29,8 @@ baseCharacter* characterCreation()
 
 void classWarrior::startEquipment()
 {
-	weapon startingSword("Rusty Sword", 10, 50, 1.2f, 1, 5);
-	armor startingArmor("Rusty Chainmail", 20, 50, 1, 1, 5);
+	weapon startingSword("Rusty Sword", 1.6, 50, 1.2f, 1, 5, 0);
+	armor startingArmor("Rusty Chainmail", 20, 50, 1, 1, 5, 0);
 
 	setEquippedArmor(startingArmor);
 	setEquippedWeapon(startingSword);
@@ -39,8 +38,8 @@ void classWarrior::startEquipment()
 
 void classRogue::startEquipment()
 {
-    weapon startingDagger("Rusty Dagger", 8, 50, 1.4f, 2, 5);
-    armor startingArmor("Old Leather Armor", 10, 50, 1.4f, 2, 5);
+    weapon startingDagger("Rusty Dagger", 1.6, 50, 1.4f, 2, 5, 0);
+    armor startingArmor("Old Leather Armor", 10, 50, 1.4f, 2, 5, 0);
 
     setEquippedArmor(startingArmor);
     setEquippedWeapon(startingDagger);
@@ -48,8 +47,8 @@ void classRogue::startEquipment()
 
 void classMage::startEquipment()
 {
-    weapon startingStaff("Old Staff", 8, 50, 1, 3, 5);
-    armor startingRobe("Old Robe", 5, 50, 1.2f, 3, 5);
+    weapon startingStaff("Old Staff", 1.3, 50, 1, 3, 5, 0);
+    armor startingRobe("Old Robe", 5, 50, 1.2f, 3, 5, 0);
 
     setEquippedArmor(startingRobe);
     setEquippedWeapon(startingStaff);
@@ -57,7 +56,7 @@ void classMage::startEquipment()
 
 int classWarrior::baseAttack()
 {
-    int damage = rand() % 4*getLevel() + getStrength() + getEquippedWeapon().getDamage();
+    int damage = rand() % 4*getLevel() + getStrength() * getEquippedWeapon().getDamage();
 
     if (rand() % 10000 < 100 * (getCriticalChance() * getEquippedWeapon().getCritModifier()))
         damage *= 2;
@@ -67,7 +66,7 @@ int classWarrior::baseAttack()
 
 int classRogue::baseAttack()
 {
-    int damage = rand() % 4*getLevel() + getAgility() + getEquippedWeapon().getDamage();
+    int damage = rand() % 4*getLevel() + getAgility() * getEquippedWeapon().getDamage();
 
     if (rand() % 10000 < 100*(getCriticalChance() * getEquippedWeapon().getCritModifier()))
         damage *= 2;
@@ -77,7 +76,7 @@ int classRogue::baseAttack()
 
 int classMage::baseAttack()
 {
-    int damage = rand() % 2*getLevel() + getIntelligence() + getEquippedWeapon().getDamage();
+    int damage = rand() % 2*getLevel() + getIntelligence() * getEquippedWeapon().getDamage();
 
     if (rand() % 10000 < 100*(getCriticalChance() * getEquippedWeapon().getCritModifier()))
         damage *= 2;

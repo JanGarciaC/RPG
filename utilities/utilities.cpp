@@ -38,7 +38,7 @@ int navigateMenu(const vector<string>& options, string header)
         printMenu(options, selected, header);
         int key = _getch();
 
-        if (key == 224) // fletxes
+        if (key == 224) 
         {
             key = _getch();
             if (key == 72) selected = (selected + options.size() - 1) % options.size(); // UP
