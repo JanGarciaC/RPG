@@ -176,6 +176,15 @@ void displayCharacterInventory(baseCharacter* character)
     _getch();
 }
 
+void tryToOrientPlayer(baseCharacter* character)
+{
+    system("cls");
+    printHeader("ORIENT YOURSELF");
+    cout << "Orientation feature coming soon!" << endl;
+    cout << endl << "Press any key to return..." << endl;
+    _getch();
+}
+
 void standardGameMenu(baseCharacter* player, string additionalMessage)
 {
 	system("cls");
@@ -183,6 +192,7 @@ void standardGameMenu(baseCharacter* player, string additionalMessage)
     "Move",
     "Check Character",
 	"Check Inventory",
+	"Try to Orient Yourself",
     "Exit"
     };
 
@@ -205,8 +215,12 @@ void standardGameMenu(baseCharacter* player, string additionalMessage)
 			system("cls");
             break;
         case 3:
+            tryToOrientPlayer(player);
+			system("cls");
+            break;
+        case 4:
             cout << "Exiting game..." << endl;
-            Sleep(500);
+			Sleep(500);
 			exit(0);
         }
     }

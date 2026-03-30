@@ -3,6 +3,7 @@
 #include "../equipment/equipment.h"
 #include <string>
 #include <iostream>
+#include <cmath>
 
 /////////////////////////////////
 // Base class Definition
@@ -17,7 +18,8 @@ private:
 	// Character stats
     int stamina, strength, agility, intelligence;
     int maxHealth, currentHealth;
-    float speed, evasion, criticalChance;
+    float speed, evasion, criticalChance, orientationSkill;
+	int experience;
 	// Inventory
 	int gold;
 	weapon equippedWeapon;
@@ -27,7 +29,7 @@ public:
 	baseCharacter() : name(""), characterClass(0), level(1),
         stamina(0), strength(0), agility(0), intelligence(0),
         maxHealth(50), currentHealth(50), speed(0), evasion(0), 
-        criticalChance(0), gold(25){}
+        criticalChance(0), gold(25), experience(0), orientationSkill(0){}
 
     void defineName(const std::string& n) { name = n; }
     void setCharacterClass(int c) { characterClass = c; }
@@ -37,7 +39,9 @@ public:
     void addStrength(int x) { strength += x; }
     void addAgility(int x) { agility += x; }
     void addIntelligence(int x) { intelligence += x; }
+	void addExperience(int x) { experience += x; if (experience > 100 * pow(1.4, level-1)) { experience -= 100 * pow(1.4, level-1); levelUp();}}
 
+	void setOrientationSkill(float x) { orientationSkill = x; }
     void setStamina(int x) { stamina = x; }
     void setStrength(int x) { strength = x; }
     void setAgility(int x) { agility = x; }
@@ -55,6 +59,8 @@ public:
 	int getMaxHealth() const { return maxHealth; }
 	int getCurrentHealth() const { return currentHealth; }
     int getGold() const { return gold; }
+	int getExperience() const { return experience; }
+	float getOrientationSkill() const { return orientationSkill; }
 	float getSpeed() const { return speed; }
 	float getEvasion() const { return evasion; }
 	float getCriticalChance() const { return criticalChance; }
@@ -68,6 +74,7 @@ public:
         evasion = agility * 0.5f;
         criticalChance = agility * 0.65f;
         speed = 20 + agility;
+		orientationSkill = 25 + intelligence * 2.5f;
     }
 
 	virtual int baseAttack() { return 0; }

@@ -96,6 +96,7 @@ void baseCharacter::displayCharacterInfo()
     cout << "Name: " << name << endl;
     cout << "Class: " << (characterClass == 1 ? "Warrior" : characterClass == 2 ? "Rogue" : characterClass == 3 ? "Mage" : "None") << endl;
     cout << "Level: " << level << endl;
+	cout << "Experience: " << experience << "/" << 100 * pow(1.4, level - 1) << endl;
     cout << "Health: " << currentHealth << "/" << maxHealth << endl << endl;
 
 	cout << "BASIC STATS:" << endl;
@@ -108,6 +109,7 @@ void baseCharacter::displayCharacterInfo()
 	cout << "Speed: " << speed << endl;
 	cout << "Evasion: " << evasion << endl;
 	cout << "Critical Chance: " << criticalChance << "%" << endl;
+	cout << "Orientation Skill: " << orientationSkill << "%" << endl;
 }
 
 void classMage::displayCharacterInfo()
@@ -115,6 +117,7 @@ void classMage::displayCharacterInfo()
     cout << "Name: " << getName() << endl;
     cout << "Class: " << (getCharacterClass() == 1 ? "Warrior" : getCharacterClass() == 2 ? "Rogue" : getCharacterClass() == 3 ? "Mage" : "None") << endl;
     cout << "Level: " << getLevel() << endl;
+    cout << "Experience" << getExperience() << "/" << 100 * pow(1.4, getLevel() - 1) << endl;
     cout << "Health: " << getCurrentHealth() << "/" << getMaxHealth() << endl;
 	cout << "Mana: " << getCurrentMana() << "/" << getMaxMana() << endl << endl;
 
@@ -128,4 +131,5 @@ void classMage::displayCharacterInfo()
     cout << "Speed: " << getSpeed() << endl;
     cout << "Evasion: " << getEvasion() << endl;
     cout << "Critical Chance: " << getCriticalChance() << "%" << endl;
+    cout << "Orientation Skill: " << getOrientationSkill() << "%" << endl;
 }
