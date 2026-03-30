@@ -5,4 +5,4 @@
 baseCharacter* startMenu();
 void classMenu(baseCharacter& character);
 void defineStatMenu(baseCharacter& character);
-void standardGameMenu(std::string additionalMessage);
+void standardGameMenu(baseCharacter* player, std::string additionalMessage);

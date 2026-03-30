@@ -28,6 +28,7 @@ baseCharacter* startMenu()
         case 1:
             cout << "Load game feature coming soon!" << endl;
             Sleep(1000);
+			eraseLastLine();
             break;
         case 2:
             cout << "Exiting game..." << endl;
@@ -118,15 +119,66 @@ void defineStatMenu(baseCharacter& character)
     }
 
     character.setStamina(values[0]);
-    character.setStrength(values[1]);
-    character.setAgility(values[2]);
-    character.setIntelligence(values[3]);
+    character.addStrength(values[1]);
+    character.addAgility(values[2]);
+    character.addIntelligence(values[3]);
 
     character.calculateDerivedStats();
 }
 
-void standardGameMenu(string additionalMessage)
+void moveOnMap()
 {
+    system("cls");
+
+    vector<string> options = {
+        "NORTH",
+        "EAST",
+        "WEST",
+		"SOUTH",
+		"BACK TO MENU"
+    };
+
+    while (true)
+    {
+        int choice = navigateMenu(options, "MOVE TO", "");
+
+        switch (choice)
+        {
+        case 0:
+			// Move north
+        case 1:
+			// Move east
+        case 2:
+			// Move west
+		case 3:
+			// Move south
+        case 4:
+			return;
+        }
+    }
+}
+
+void displayCharacterInfo(baseCharacter* character)
+{
+    system("cls");
+	printHeader("PLAYER INFO");
+    character->displayCharacterInfo();
+    cout << endl << "Press any key to return..." << endl;
+    _getch();
+}
+
+void displayCharacterInventory(baseCharacter* character)
+{
+    system("cls");
+    printHeader("PLAYER INVENTORY");
+    cout << "Inventory feature coming soon!" << endl;
+    cout << endl << "Press any key to return..." << endl;
+    _getch();
+}
+
+void standardGameMenu(baseCharacter* player, string additionalMessage)
+{
+	system("cls");
     vector<string> options = {
     "Move",
     "Check Character",
@@ -141,11 +193,17 @@ void standardGameMenu(string additionalMessage)
         switch (choice)
         {
         case 0:
-			// Placeholder for move functionality
+			moveOnMap();
+			system("cls");
+            break;
         case 1:
-			// Placeholder for character check functionality
+			displayCharacterInfo(player);
+			system("cls");
+            break;
         case 2:
-			// Placeholder for inventory check functionality
+			displayCharacterInventory(player);
+			system("cls");
+            break;
         case 3:
             cout << "Exiting game..." << endl;
             Sleep(500);
@@ -154,3 +212,4 @@ void standardGameMenu(string additionalMessage)
     }
 
 }
+

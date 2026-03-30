@@ -14,6 +14,7 @@ enum MenuAction
     ACTION_MINUS
 };
 
+void eraseLastLine();
 void printHeader(const std::string& header);
 void printMenu(const std::vector<std::string>& options, int selected, std::string header, std::string additionalMessage);
 int navigateMenu(const std::vector<std::string>& options, std::string header, std::string additionalMessage);

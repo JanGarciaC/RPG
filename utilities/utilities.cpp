@@ -5,6 +5,24 @@
 
 using namespace std;
 
+void eraseLastLine()
+{
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+
+    if (!GetConsoleScreenBufferInfo(hConsole, &csbi)) return;
+
+    COORD coord;
+    coord.X = 0;
+    coord.Y = csbi.dwCursorPosition.Y - 1;
+    SetConsoleCursorPosition(hConsole, coord);
+
+    DWORD written;
+    FillConsoleOutputCharacter(hConsole, ' ', csbi.dwSize.X, coord, &written);
+
+    SetConsoleCursorPosition(hConsole, coord);
+}
+
 void moveCursorToTop()
 {
     COORD coord = { 0, 0 };
@@ -43,19 +61,17 @@ void printHeader(const string& header)
 
 void printMenu(const vector<string>& options, int selected, string header, string additionalMessage)
 {
-    moveCursorToTop(); // mou cursor al principi
+    moveCursorToTop();
     printHeader(header);
 
     if (!additionalMessage.empty())
     {
-        // Esborra la línia abans de pintar el missatge
         cout << "\r" << string(80, ' ') << "\r";
         cout << additionalMessage << endl << endl;
     }
 
-    for (int i = 0; i < options.size(); i++)
+    for (int i = 0; i < options.size(); i++)    
     {
-        // Esborra la línia abans d'imprimir
         cout << "\r" << string(80, ' ') << "\r";
         cout << (i == selected ? "> " : "  ") << options[i] << endl;
     }

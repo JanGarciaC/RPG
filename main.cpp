@@ -10,7 +10,7 @@ int main()
 
 	system("cls");
 
-	standardGameMenu("Welcome to the world of RPG! Your adventure begins now...");
+	standardGameMenu(player, "Welcome to the world of RPG! Your adventure begins now...");
 
     delete player;
     return 0;

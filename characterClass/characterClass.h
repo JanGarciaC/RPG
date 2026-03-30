@@ -72,6 +72,7 @@ public:
 
 	virtual int baseAttack() { return 0; }
 	virtual void startEquipment() {}
+	virtual void displayCharacterInfo();
 	virtual void levelUp() {}
 	virtual ~baseCharacter() {}
 };
@@ -113,21 +114,22 @@ private:
 	int currentMana, maxMana;
 
 public:
-	classMage(baseCharacter& other) : baseCharacter(other), currentMana(50), maxMana(50) {}
+	classMage(baseCharacter& other) : baseCharacter(other), currentMana(100), maxMana(100) {}
 
 	int getMaxMana() const { return maxMana; }
-	int getcurrentMana() const { return currentMana; }
+	int getCurrentMana() const { return currentMana; }
 
 	void calculateDerivedStats() override
 	{
 		baseCharacter::calculateDerivedStats();
-		maxMana = 50 + getIntelligence() * 2;
+		maxMana = 100 + getIntelligence() * 2;
 		currentMana = maxMana;
 	}
 
     int baseAttack() override;
     void startEquipment() override;
+	void displayCharacterInfo() override;
 };
 
 baseCharacter* characterCreation();
-baseCharacter* initializeInventory(baseCharacter* character);
+baseCharacter* initialize(baseCharacter* character);

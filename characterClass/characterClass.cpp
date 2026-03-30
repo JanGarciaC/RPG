@@ -6,9 +6,10 @@
 
 using namespace std;
 
-baseCharacter* initializeInventory(baseCharacter* character)
+baseCharacter* initialize(baseCharacter* character)
 {
     character->startEquipment();
+	character->calculateDerivedStats();
     return character;
 }
 
@@ -28,9 +29,9 @@ baseCharacter* characterCreation()
     classMenu(temp);  
     defineStatMenu(temp);
 
-    if (temp.getCharacterClass() == 1) return initializeInventory(new classWarrior(temp));
-    if (temp.getCharacterClass() == 2) return initializeInventory(new classRogue(temp));
-    return initializeInventory(new classMage(temp));
+    if (temp.getCharacterClass() == 1) return initialize(new classWarrior(temp));
+    if (temp.getCharacterClass() == 2) return initialize(new classRogue(temp));
+    return initialize(new classMage(temp));
 }
 
 void classWarrior::startEquipment()
@@ -72,7 +73,7 @@ int classWarrior::baseAttack()
 
 int classRogue::baseAttack()
 {
-    int damage = rand() % 4*getLevel() + getAgility() * getEquippedWeapon().getDamage();
+    int damage = rand() % 4*getLevel() + getStrength() * getEquippedWeapon().getDamage();
 
     if (rand() % 10000 < 100*(getCriticalChance() * getEquippedWeapon().getCritModifier()))
         damage *= 2;
@@ -82,10 +83,49 @@ int classRogue::baseAttack()
 
 int classMage::baseAttack()
 {
-    int damage = rand() % 2*getLevel() + getIntelligence() * getEquippedWeapon().getDamage();
+    int damage = rand() % 2*getLevel() + getStrength() * getEquippedWeapon().getDamage();
 
     if (rand() % 10000 < 100*(getCriticalChance() * getEquippedWeapon().getCritModifier()))
         damage *= 2;
 
     return damage;
+}
+
+void baseCharacter::displayCharacterInfo()
+{
+    cout << "Name: " << name << endl;
+    cout << "Class: " << (characterClass == 1 ? "Warrior" : characterClass == 2 ? "Rogue" : characterClass == 3 ? "Mage" : "None") << endl;
+    cout << "Level: " << level << endl;
+    cout << "Health: " << currentHealth << "/" << maxHealth << endl << endl;
+
+	cout << "BASIC STATS:" << endl;
+    cout << "Stamina: " << stamina << endl;
+    cout << "Strength: " << strength << endl;
+    cout << "Agility: " << agility << endl;
+    cout << "Intelligence: " << intelligence << endl << endl;
+
+	cout << "DERIVED STATS:" << endl;
+	cout << "Speed: " << speed << endl;
+	cout << "Evasion: " << evasion << endl;
+	cout << "Critical Chance: " << criticalChance << "%" << endl;
+}
+
+void classMage::displayCharacterInfo()
+{
+    cout << "Name: " << getName() << endl;
+    cout << "Class: " << (getCharacterClass() == 1 ? "Warrior" : getCharacterClass() == 2 ? "Rogue" : getCharacterClass() == 3 ? "Mage" : "None") << endl;
+    cout << "Level: " << getLevel() << endl;
+    cout << "Health: " << getCurrentHealth() << "/" << getMaxHealth() << endl;
+	cout << "Mana: " << getCurrentMana() << "/" << getMaxMana() << endl << endl;
+
+    cout << "BASIC STATS:" << endl;
+    cout << "Stamina: " << getStamina() << endl;
+    cout << "Strength: " << getStrength() << endl;
+    cout << "Agility: " << getAgility() << endl;
+    cout << "Intelligence: " << getIntelligence() << endl << endl;
+
+    cout << "DERIVED STATS:" << endl;
+    cout << "Speed: " << getSpeed() << endl;
+    cout << "Evasion: " << getEvasion() << endl;
+    cout << "Critical Chance: " << getCriticalChance() << "%" << endl;
 }
