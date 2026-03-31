@@ -23,26 +23,26 @@ T getRandomWeighted(const vector<WeightedItem<T>>& list)
     return list.back().value;
 }
 
-MapTile::MapTile(int X, int Y) : x(X), y(Y), firstTime(true), doneCombat(false), eventType(NOTHING), npc(BOAR), loot(""), building(ABANDONED_HUT), money(0)
+MapTile::MapTile(int X, int Y) : x(X), y(Y), firstTime(true), condition(false), eventType(NOTHING), npc(BOAR), loot(""), building(ABANDONED_HUT), money(0)
 {
-	int r = rand() % 1000;
+	int r = rand() % 10000;
 
-    if (r < 600) {
+    if (r < 8000) {
         eventType = NOTHING;
     }
-    else if (r < 750) {
+    else if (r < 8500) {
         eventType = NPC;
         npc = getRandomWeighted(npcList);
     }
-    else if (r < 800) {
+    else if (r < 9000) {
         eventType = MONEY;
         money = getRandomWeighted(moneyList);
     }
-    else if (r < 900) {
+    else if (r < 9500) {
         eventType = RANDOMLOOT;
         loot = getRandomWeighted(lootList);
     }
-    else if (r < 999) {
+    else if (r < 9990) {
         eventType = RANDOMBUILDING;
         building = getRandomWeighted(buildingList);
     }
@@ -59,7 +59,7 @@ void MapTile::createOriginTile()
     eventType = VILLAGE;
 }
 
-MapTile::MapTile() : x(0), y(0), firstTime(true), doneCombat(false), eventType(NOTHING), npc(BOAR), loot(""), building(ABANDONED_HUT), money(0)
+MapTile::MapTile() : x(0), y(0), firstTime(true), condition(false), eventType(NOTHING), npc(BOAR), loot(""), building(ABANDONED_HUT), money(0)
 {
     do
     {
@@ -73,51 +73,42 @@ string MapTile::getTileMessage()
 {
 	string message;
 
+    if (eventType == VILLAGE)
+    {
+        message = "You find yourself on a desolate village.\nThere are only 2 intact buildings. Where do you go? \n";
+        return message;
+    }
+
     if (firstTime)
     {
-        int r = rand() % 1000;
-
-        if (r < 250)
-            message = "You don't recognize this place.\n";
-        else if (r < 500)
-            message = "This place is new to you.\n";
-        else if (r < 750)
-            message = "It's your first time here.\n";
-        else
-            message = "You've never been here before.\n";
-
-
         switch (eventType)
         {
         case NOTHING:
             message += "There's nothing here. \n";
             break;
-        case VILLAGE:
-            message += "You find yourself on a desolate village.\n There are only 2 intact buildings. Where do you go? \n";
-            break;
         case NPC:
             switch (npc)
             {
             case BOAR:
-				message += "You encounter a wild boar. It looks aggressive! \n";
+				message += "You encounter a Wild Boar. It looks aggressive! \n";
                 break;
             case RABBIT:
-				message += "You see a rabbit hopping around. It seems harmless, but edible. \n";
+				message += "You see a Rabbit hopping around. It seems harmless, but edible. \n";
                 break;
             case THIEF:
-				message += "A shady figure approaches you. It's a thief! He wants to steal some of your gold. \n";
+				message += "A shady figure approaches you. It's a Thief! He wants to steal some of your gold. \n";
                 break;
             case SOLDIER:
-				message += "You see a soldier patrolling the area. He looks angry and hungry. \n";
+				message += "You see a Soldier patrolling the area. He looks angry and hungry. \n";
                 break;
             case KNIGHT:
-				message += "A knight in shining armor stands before you. He looks possesed by something from another world. \n";
+				message += "A Knight in shining armor stands before you. He looks possesed by something from another world. \n";
                 break;
-            case DRAGON:
-				message += "A fearsome dragon appears in front of you. It doesn't look to happy to see you. \n";
+            case ANGEL:
+				message += "A beautyfull Angel appears in front of you. It's radiant light shines on you. \n";
                 break;
             case DEMON:
-				message += "A terrifying demon emerges from the shadows. Running is always a option. \n";
+				message += "A terrifying Demon emerges from the shadows. You feel something terrible is about to happen. \n";
                 break;
             default:
                 break;
@@ -141,11 +132,11 @@ string MapTile::getTileMessage()
             case TAVERN:
                 message += "You stubmle into a tavern. Do you want to enter? \n";
                 break;
-            case CORPSES:
-                message += "You find a pile of corpses and human remains lying on the ground. \n";
+            case RITUAL:
+                message += "You find some sort of ritual circles drawn in the floor with blood. What do you do?\n";
                 break;
             case CHURCH:
-                message += "A small church appears in front of you. Do you want to go inside? \n";
+                message += "A big, wooden cross appears in front of you. What do you do?\n";
                 break;
             default:
                 break;
@@ -160,34 +151,32 @@ string MapTile::getTileMessage()
     }
     else
     {
-        message = "You have already been here.\n";
-
         switch (eventType)
         {
         case NPC:
-            if (!doneCombat)
+            if (!condition)
                 switch (npc)
                 {
                 case BOAR:
-                    message += "You encounter a wild boar. It looks aggressive! \n";
+                    message += "You encounter a Wild Boar. It looks aggressive! \n";
                     break;
                 case RABBIT:
-                    message += "You see a rabbit hopping around. It seems harmless, but edible. \n";
+                    message += "You see a Rabbit hopping around. It seems harmless, but edible. \n";
                     break;
                 case THIEF:
-                    message += "A shady figure approaches you. It's a thief! He wants to steal some of your gold. \n";
+                    message += "A shady figure approaches you. It's a Thief! He wants to steal some of your gold. \n";
                     break;
                 case SOLDIER:
-                    message += "You see a soldier patrolling the area. He looks angry and hungry. \n";
+                    message += "You see a Soldier patrolling the area. He looks angry and hungry. \n";
                     break;
                 case KNIGHT:
-                    message += "A knight in shining armor stands before you. He looks possesed by something from another world. \n";
+                    message += "A Knight in shining armor stands before you. He looks possesed by something from another world. \n";
                     break;
-                case DRAGON:
-                    message += "A giant dragon appears in front of you. It doesn't look to happy to see you. \n";
+                case ANGEL:
+                    message += "A beautyfull Angel appears in front of you. It's radiant light shines on you. \n";
                     break;
                 case DEMON:
-                    message += "A terrifying demon emerges from the shadows. Running is always a option. \n";
+                    message += "A terrifying Demon emerges from the shadows. You feel something terrible is about to happen. \n";
                     break;
                 default:
                     break;
@@ -195,9 +184,6 @@ string MapTile::getTileMessage()
             else
 			    message += "The remains of your victim are still lying on the groud. \n";
 			break;
-        case VILLAGE:
-            message += "You find yourself on a desolate village.\n There are only 2 intact buildings. Where do you go? \n";
-            break;
         case RANDOMBUILDING:
             switch (building)
             {
@@ -210,11 +196,17 @@ string MapTile::getTileMessage()
             case TAVERN:
                 message += "You stubmle into a tavern. Do you want to enter? \n";
                 break;
-            case CORPSES:
-                message += "You find a pile of corpses and human remains lying on the ground. \n";
+            case RITUAL:
+				if (!condition)
+                    message += "You find some sort of ritual circles drawn in the floor with blood. What do you do?\n";
+                else
+                    message += "There's nothing here. \n";
                 break;
             case CHURCH:
-                message += "A small church appears in front of you. Do you want to go inside? \n";
+				if (!condition)
+                    message += "A big, wooden cross appears in front of you. What do you do?\n";
+                else
+                    message += "There's nothing here. \n";
                 break;
             default:
                 break;

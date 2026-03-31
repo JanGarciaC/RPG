@@ -7,6 +7,26 @@
 
 using namespace std;
 
+void introductionSequence()
+{
+	printHeader("INTRODUCTION");
+    cout << "You wake up in a strange world, with no memory of how you got here." << endl;
+    Sleep(3000);
+	cout << "The only thing you remember is your name and some skills you had before." << endl;
+    Sleep(3000);
+	cout << "In your backpack you can find some gold coins, basic supplies and your old equipment. There is also a strange device." << endl;
+    Sleep(3000);
+    cout << "The device starts to glow and you can feel it connect with your mind." << endl;
+	Sleep(3000);
+	cout << "Your mission is to find your purpose in this world. You can try to fix it, or maybe, end it. That's up to you." << endl;
+    Sleep(3000);
+    cout << endl << "Press enter to continue..." << endl;
+    int key = 0;
+    do {
+       key = _getch();
+	} while (key != 13);
+}
+
 baseCharacter* startMenu()
 {
     vector<string> options = {
@@ -191,20 +211,19 @@ void tryToOrientPlayer(baseCharacter* character)
     _getch();
 }
 
-void standardGameMenu(WorldMap& map,baseCharacter* player, string additionalMessage)
+void standardGameMenu(WorldMap& map,baseCharacter* player, string additionalMessage, string header)
 {
 	system("cls");
     vector<string> options = {
     "Move",
     "Check Character",
 	"Check Inventory",
-	"Try to Orient Yourself",
     "Exit"
     };
 
     while (true)
     {
-        int choice = navigateMenu(options, "WORLD - OUTSIDE", additionalMessage);
+        int choice = navigateMenu(options, header, additionalMessage);
 
         switch (choice)
         {
@@ -225,10 +244,6 @@ void standardGameMenu(WorldMap& map,baseCharacter* player, string additionalMess
 			system("cls");
             break;
         case 3:
-            tryToOrientPlayer(player);
-			system("cls");
-            break;
-        case 4:
             cout << "Exiting game..." << endl;
 			Sleep(500);
 			exit(0);

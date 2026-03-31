@@ -23,7 +23,7 @@ enum NPCType {
     THIEF,
 	SOLDIER,
 	KNIGHT,
-	DRAGON,
+	ANGEL,
     DEMON
 };
 
@@ -31,7 +31,7 @@ enum BuildingType {
     ABANDONED_HUT,
     RUINS,
 	TAVERN,
-    CORPSES,
+    RITUAL,
     CHURCH
 };
 
@@ -42,13 +42,13 @@ struct WeightedItem {
 };
 
 inline std::vector<WeightedItem<NPCType>> npcList = {
-    {RABBIT, 25},
-    {BOAR, 25},
+    {RABBIT, 31.5},
+    {BOAR, 31.5},
     {THIEF, 20},
     {SOLDIER, 10},
-    {KNIGHT, 10},
-    {DRAGON, 5},
-    {DEMON, 5}
+    {KNIGHT, 5},
+    {ANGEL, 1},
+    {DEMON, 1}
 };
 
 inline std::vector<WeightedItem<std::string>> lootList = {
@@ -59,11 +59,11 @@ inline std::vector<WeightedItem<std::string>> lootList = {
 };
 
 inline std::vector<WeightedItem<BuildingType>> buildingList = {
-    {ABANDONED_HUT, 35},
+    {ABANDONED_HUT, 45},
 	{RUINS, 25},
 	{TAVERN, 20},
-    {CORPSES, 10},
-    {CHURCH, 10}
+    {RITUAL, 5},
+    {CHURCH, 5}
 };
 
 inline std::vector<WeightedItem<int>> moneyList = {
@@ -79,7 +79,7 @@ class MapTile {
 private:
     int x, y;
     bool firstTime;
-    bool doneCombat;
+    bool condition;
 
     TileEvent eventType;
 
@@ -112,6 +112,7 @@ public:
         return currentTile->getTileMessage();
     }
 
+	MapTile* getCurrentTile() { return currentTile; }
     MapTile& getTile(int x, int y);
     void movePlayer(int dx, int dy);
 

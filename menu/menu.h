@@ -4,6 +4,7 @@
 #include "../map/worldMap.h"
 
 baseCharacter* startMenu();
+void introductionSequence();
 void classMenu(baseCharacter& character);
 void defineStatMenu(baseCharacter& character);
-void standardGameMenu(WorldMap& map, baseCharacter* player, std::string additionalMessage);
+void standardGameMenu(WorldMap& map, baseCharacter* player, std::string additionalMessage, std::string header);
