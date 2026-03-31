@@ -36,8 +36,8 @@ baseCharacter* characterCreation()
 
 void classWarrior::startEquipment()
 {
-	weapon startingSword("Rusty Sword", 1.6, 50, 1.2f, 1, 5, 0);
-	armor startingArmor("Rusty Chainmail", 20, 50, 1, 1, 5, 0);
+	weapon startingSword("Rusty Sword", "Old rusty sword, full of cracks.", 1.6, 50, 1.2f, 1, 5, 0);
+	armor startingArmor("Rusty Chainmail", "Old chainmail, gives you a false sensation of security.", 20, 50, 1, 1, 5, 0);
 
 	setEquippedArmor(startingArmor);
 	setEquippedWeapon(startingSword);
@@ -45,8 +45,8 @@ void classWarrior::startEquipment()
 
 void classRogue::startEquipment()
 {
-    weapon startingDagger("Rusty Dagger", 1.6, 50, 1.4f, 2, 5, 0);
-    armor startingArmor("Old Leather Armor", 10, 50, 1.4f, 2, 5, 0);
+    weapon startingDagger("Rusty Dagger", "Old and Dull rusty dagger.", 1.6, 50, 1.4f, 2, 5, 0);
+    armor startingArmor("Old Leather Armor", "Old and wore down leather armor.", 10, 50, 1.4f, 2, 5, 0);
 
     setEquippedArmor(startingArmor);
     setEquippedWeapon(startingDagger);
@@ -54,8 +54,8 @@ void classRogue::startEquipment()
 
 void classMage::startEquipment()
 {
-    weapon startingStaff("Old Staff", 1.3, 50, 1, 3, 5, 0);
-    armor startingRobe("Old Robe", 5, 50, 1.2f, 3, 5, 0);
+    weapon startingStaff("Old Staff", "old wooden staff, full of splinters and cracks.", 1.3, 50, 1, 3, 5, 0);
+    armor startingRobe("Old Robe", "Old long robe. It has more holes than intact parts.", 5, 50, 1.2f, 3, 5, 0);
 
     setEquippedArmor(startingRobe);
     setEquippedWeapon(startingStaff);
@@ -91,6 +91,8 @@ int classMage::baseAttack()
     return damage;
 }
 
+
+
 void baseCharacter::displayCharacterInfo()
 {
     cout << "Name: " << name << endl;
@@ -99,11 +101,34 @@ void baseCharacter::displayCharacterInfo()
 	cout << "Experience: " << experience << "/" << 100 * pow(1.4, level - 1) << endl;
     cout << "Health: " << currentHealth << "/" << maxHealth << endl << endl;
 
-	cout << "BASIC STATS:" << endl;
-    cout << "Stamina: " << stamina << endl;
-    cout << "Strength: " << strength << endl;
-    cout << "Agility: " << agility << endl;
-    cout << "Intelligence: " << intelligence << endl << endl;
+    cout << "BASIC STATS:" << endl;
+    if (tempStamina == 0)
+    {
+        cout << "Stamina: " << stamina << endl;
+    }
+    else
+        cout << "Stamina: " << stamina << " + " << tempStamina << endl;
+    if (tempStrength == 0)
+    {
+        cout << "Strength: " << strength << endl;
+    }
+    else
+        cout << "Strength: " << strength << " + " << tempStrength << endl;
+
+    if (tempAgility == 0)
+    {
+        cout << "Agility: " << agility << endl;
+    }
+    else
+        cout << "Agility: " << agility << " + " << tempAgility << endl;
+
+    if (tempIntelligence == 0)
+    {
+        cout << "Intelligence: " << intelligence << endl << endl;
+    }
+    else
+        cout << "Intelligence: " << intelligence << " + " << tempIntelligence << endl;
+	cout << "Stat Buff Duration: " << buffDuration << " turns" << endl << endl;
 
 	cout << "DERIVED STATS:" << endl;
 	cout << "Speed: " << speed << endl;
@@ -122,14 +147,58 @@ void classMage::displayCharacterInfo()
 	cout << "Mana: " << getCurrentMana() << "/" << getMaxMana() << endl << endl;
 
     cout << "BASIC STATS:" << endl;
-    cout << "Stamina: " << getStamina() << endl;
-    cout << "Strength: " << getStrength() << endl;
-    cout << "Agility: " << getAgility() << endl;
-    cout << "Intelligence: " << getIntelligence() << endl << endl;
+    if (getTempStamina() == 0)
+    {
+        cout << "Stamina: " << getStamina() << endl;
+    }
+    else
+        cout << "Stamina: " << getStamina() << " + " << getTempStamina() << endl;
+    if (getTempStrength() == 0)
+    {
+        cout << "Strength: " << getStrength() << endl;
+    }
+    else
+        cout << "Strength: " << getStrength() << " + " << getTempStrength() << endl;
+
+    if (getTempAgility() == 0)
+    {
+        cout << "Agility: " << getAgility() << endl;
+    }
+    else
+        cout << "Agility: " << getAgility() << " + " << getTempAgility() << endl;
+
+    if (getTempIntelligence() == 0)
+    {
+        cout << "Intelligence: " << getIntelligence() << endl << endl;
+    }
+    else
+        cout << "Intelligence: " << getIntelligence() << " + " << getTempIntelligence() << endl;
+	cout << "Stat Buff Duration: " << getBuffDuration() << " turns" << endl << endl;
 
     cout << "DERIVED STATS:" << endl;
     cout << "Speed: " << getSpeed() << endl;
     cout << "Evasion: " << getEvasion() << endl;
     cout << "Critical Chance: " << getCriticalChance() << "%" << endl;
     cout << "Orientation Skill: " << getOrientationSkill() << "%" << endl;
+}
+
+void baseCharacter::printInventory()
+{
+	cout << "////////// EQUIPPED WEAPON //////////" << endl;
+	equippedWeapon.printObjectInfo();
+
+	cout << "////////// EQUIPPED ARMOR //////////" << endl;
+	equippedArmor.printObjectInfo();
+
+	cout << "////////// INVENTORY ITEMS //////////" << endl;
+    if (inventory.empty())
+    {
+        cout << "Your inventory is empty." << endl;
+        return;
+	}
+    for (size_t i = 0; i < inventory.size(); i++)
+    {
+		inventory[i].printObjectInfo();
+        cout << endl;
+    }
 }

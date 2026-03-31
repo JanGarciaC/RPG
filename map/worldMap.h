@@ -95,7 +95,12 @@ public:
 	int getX() const { return x; }
 	int getY() const { return y; }
 
+	TileEvent getTileEvent() { return eventType; }
+	bool getCondition() { return condition; }
+	int getMoney() { return money; }
+
 	void markVisited() { firstTime = false; }
+    void markCondition() { condition = true; }
     void createOriginTile();
     std::string getTileMessage();
 };
@@ -107,10 +112,6 @@ private:
 
 public:
     WorldMap();
-
-    std::string getCurrentTileMessage() {
-        return currentTile->getTileMessage();
-    }
 
 	MapTile* getCurrentTile() { return currentTile; }
     MapTile& getTile(int x, int y);

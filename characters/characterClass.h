@@ -1,6 +1,6 @@
 #pragma once
 #include "../utilities/utilities.h"
-#include "../equipment/equipment.h"
+#include "../items/items.h"
 #include <string>
 #include <iostream>
 #include <cmath>
@@ -14,32 +14,40 @@ private:
 	// Basic character info
     std::string name;
     int characterClass;
-	int level;
+	int level;	
+	int experience;
 	// Character stats
     int stamina, strength, agility, intelligence;
     int maxHealth, currentHealth;
     float speed, evasion, criticalChance, orientationSkill;
-	int experience;
+	// Temporary stats
+	int tempStamina, tempStrength, tempAgility, tempIntelligence;
+	int buffDuration;
 	// Inventory
 	int gold;
 	weapon equippedWeapon;
 	armor equippedArmor;
+	std::vector<baseObject> inventory;
 
 public:
 	baseCharacter() : name(""), characterClass(0), level(1),
         stamina(0), strength(0), agility(0), intelligence(0),
         maxHealth(50), currentHealth(50), speed(0), evasion(0), 
-        criticalChance(0), gold(25), experience(0), orientationSkill(0) {}
+        criticalChance(0), gold(25), experience(0), orientationSkill(0),
+		tempStamina(0), tempStrength(0), tempAgility(0), tempIntelligence(0), buffDuration(0) {}
 
     void defineName(const std::string& n) { name = n; }
     void setCharacterClass(int c) { characterClass = c; }
     int getCharacterClass() const { return characterClass; }
 	std::string getName() const { return name; }
 
+	void addStamina(int x) { stamina += x; }
     void addStrength(int x) { strength += x; }
     void addAgility(int x) { agility += x; }
     void addIntelligence(int x) { intelligence += x; }
-	void addExperience(int x) { experience += x; if (experience > 100 * pow(1.4, level-1)) { experience -= 100 * pow(1.4, level-1); levelUp();}}
+	void addExperience(int x) { experience += x; if (experience >= 100 * pow(1.4, level - 1)) { do { experience -= 100 * pow(1.4, level - 1); levelUp(); } while (experience >= 100 * pow(1.4, level - 1)); } }
+	void addItemToInventory(const baseObject& item) { inventory.push_back(item); }
+	void removeItemFromInventory(int index) { if (index >= 0 && index < inventory.size()) inventory.erase(inventory.begin() + index); }
 
 	void setOrientationSkill(float x) { orientationSkill = x; }
     void setStamina(int x) { stamina = x; }
@@ -56,6 +64,11 @@ public:
 	int getStrength() const { return strength; }
 	int getAgility() const { return agility; }
 	int getIntelligence() const { return intelligence; }
+	int getTempStamina() const { return tempStamina; }
+	int getTempStrength() const { return tempStrength; }
+	int getTempAgility() const { return tempAgility; }
+	int getTempIntelligence() const { return tempIntelligence; }
+	int getBuffDuration() const { return buffDuration; }
 	int getMaxHealth() const { return maxHealth; }
 	int getCurrentHealth() const { return currentHealth; }
     int getGold() const { return gold; }
@@ -66,6 +79,9 @@ public:
 	float getCriticalChance() const { return criticalChance; }
 	armor getEquippedArmor() const { return equippedArmor; }
 	weapon getEquippedWeapon() const { return equippedWeapon; }
+	baseObject getInventoryItem(int index) const { if (index >= 0 && index < inventory.size()) return inventory[index]; return baseObject(); }
+
+	void printInventory();
 
     virtual void calculateDerivedStats()
     {

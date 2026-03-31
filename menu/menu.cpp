@@ -97,7 +97,7 @@ void defineStatMenu(baseCharacter& character)
         }
 
         string msg = "Remaining: " + to_string(remainingPoints) +
-            "\n+ / - to modify\nENTER when ready";
+            "\n+ / - to modify, ENTER when ready";
         int result = navigateMenuAdvanced(
             [&]()  
             {
@@ -111,9 +111,9 @@ void defineStatMenu(baseCharacter& character)
             "STAT ALLOCATION",
             [&]() 
             {
-                return "Remaining points: " + to_string(remainingPoints) + "\n+ / - to modify";
+                return "Remaining points: " + to_string(remainingPoints) + "\n+ / - to modify, ENTER when ready";
             },
-            [&](int selected, MenuAction action)  // onAction
+            [&](int selected, MenuAction action) 
             {
                 if (action == ACTION_PLUS)
                 {
@@ -196,22 +196,13 @@ void displayCharacterInfo(baseCharacter* character)
 void displayCharacterInventory(baseCharacter* character)
 {
     system("cls");
-    printHeader("PLAYER INVENTORY");
-    cout << "Inventory feature coming soon!" << endl;
+    printHeader("INVENTORY");
+	character->printInventory();
     cout << endl << "Press any key to return..." << endl;
     _getch();
 }
 
-void tryToOrientPlayer(baseCharacter* character)
-{
-    system("cls");
-    printHeader("ORIENT YOURSELF");
-    cout << "Orientation feature coming soon!" << endl;
-    cout << endl << "Press any key to return..." << endl;
-    _getch();
-}
-
-void standardGameMenu(WorldMap& map,baseCharacter* player, string additionalMessage, string header)
+void standardGameMenu(WorldMap& map,baseCharacter* player, const string& additionalMessage, const string& header)
 {
 	system("cls");
     vector<string> options = {
@@ -252,3 +243,143 @@ void standardGameMenu(WorldMap& map,baseCharacter* player, string additionalMess
 
 }
 
+void npcEncounter(WorldMap& map, baseCharacter* player, const string& additionalMessage, const string& header)
+{
+    system("cls");
+    vector<string> options = {
+	"Fight",
+    "Run Away",
+    "Check Character",
+    "Check Inventory",
+    "Exit"
+    };
+
+    while (true)
+    {
+        int choice = navigateMenu(options, header, additionalMessage);
+
+        switch (choice)
+        {
+        case 0:
+            cout << "Combat feature coming soon!" << endl;
+            Sleep(1000);
+            system("cls");
+			break;
+        case 1:
+            if (moveOnMap(map))
+            {
+                system("cls");
+                return;
+            }
+            system("cls");
+            break;
+        case 2:
+            displayCharacterInfo(player);
+            system("cls");
+            break;
+        case 3:
+            displayCharacterInventory(player);
+            system("cls");
+            break;
+        case 4:
+            cout << "Exiting game..." << endl;
+            Sleep(500);
+            exit(0);
+        }
+    }
+
+}
+
+void buildingEncounter(WorldMap& map, baseCharacter* player, const string& additionalMessage, const string& header)
+{
+    system("cls");
+    vector<string> options = {
+        "Enter Building",
+        "Move",
+        "Check Character",
+        "Check Inventory",
+        "Exit"
+    };
+    while (true)
+    {
+        int choice = navigateMenu(options, header, additionalMessage);
+        switch (choice)
+        {
+        case 0:
+            cout << "Building feature coming soon!" << endl;
+            Sleep(1000);
+            system("cls");
+            break;
+        case 1:
+            if (moveOnMap(map))
+            {
+                system("cls");
+                return;
+            }
+            system("cls");
+            break;
+        case 2:
+            displayCharacterInfo(player);
+            system("cls");
+            break;
+        case 3:
+            displayCharacterInventory(player);
+            system("cls");
+            break;
+        case 4:
+            cout << "Exiting game..." << endl;
+            Sleep(500);
+            exit(0);
+        }
+    }
+}
+
+void villageEncounter(WorldMap& map, baseCharacter* player, const string& additionalMessage, const string& header)
+{
+    system("cls");
+    vector<string> options = {
+        "Enter Tavern",
+		"Enter Blacksmith",
+        "Leave Town",
+        "Check Character",
+        "Check Inventory",
+        "Exit"
+    };
+    while (true)
+    {
+        int choice = navigateMenu(options, header, additionalMessage);
+        switch (choice)
+        {
+        case 0:
+            cout << "Tavern feature coming soon!" << endl;
+            Sleep(1000);
+            system("cls");
+            break;
+        case 1:
+            cout << "Blacksmith feature coming soon!" << endl;
+            Sleep(1000);
+            system("cls");
+            break;
+        case 2:
+            if (moveOnMap(map))
+            {
+                system("cls");
+                return;
+            }
+            system("cls");
+            break;
+        case 3:
+            displayCharacterInfo(player);
+            system("cls");
+            break;
+        case 4:
+            displayCharacterInventory(player);
+            system("cls");
+            break;
+        case 5:
+            cout << "Exiting game..." << endl;
+            Sleep(500);
+            exit(0);
+        }
+    }
+}

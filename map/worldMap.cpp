@@ -75,7 +75,7 @@ string MapTile::getTileMessage()
 
     if (eventType == VILLAGE)
     {
-        message = "You find yourself on a desolate village.\nThere are only 2 intact buildings. Where do you go? \n";
+        message = "You find yourself on a desolate village.\nThere are only 2 intact buildings. What do you do? \n";
         return message;
     }
 
