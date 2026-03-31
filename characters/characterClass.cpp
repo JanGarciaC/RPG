@@ -184,6 +184,8 @@ void classMage::displayCharacterInfo()
 
 void baseCharacter::printInventory()
 {
+	cout << "Gold: " << gold << endl << endl;
+
 	cout << "////////// EQUIPPED WEAPON //////////" << endl;
 	equippedWeapon.printObjectInfo();
 
