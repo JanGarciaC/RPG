@@ -67,7 +67,7 @@ void printMenu(const vector<string>& options, int selected, string header, strin
     if (!additionalMessage.empty())
     {
         cout << "\r" << string(80, ' ') << "\r";
-        cout << additionalMessage << endl << endl;
+        cout << additionalMessage << endl;
     }
 
     for (int i = 0; i < options.size(); i++)    

@@ -1,8 +1,9 @@
 #pragma once
 #include <string>
-#include "../characterClass/characterClass.h"
+#include "../characters/characterClass.h"
+#include "../map/worldMap.h"
 
 baseCharacter* startMenu();
 void classMenu(baseCharacter& character);
 void defineStatMenu(baseCharacter& character);
-void standardGameMenu(baseCharacter* player, std::string additionalMessage);
+void standardGameMenu(WorldMap& map, baseCharacter* player, std::string additionalMessage);

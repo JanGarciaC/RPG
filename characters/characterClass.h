@@ -29,7 +29,7 @@ public:
 	baseCharacter() : name(""), characterClass(0), level(1),
         stamina(0), strength(0), agility(0), intelligence(0),
         maxHealth(50), currentHealth(50), speed(0), evasion(0), 
-        criticalChance(0), gold(25), experience(0), orientationSkill(0){}
+        criticalChance(0), gold(25), experience(0), orientationSkill(0) {}
 
     void defineName(const std::string& n) { name = n; }
     void setCharacterClass(int c) { characterClass = c; }

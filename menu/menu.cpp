@@ -126,7 +126,7 @@ void defineStatMenu(baseCharacter& character)
     character.calculateDerivedStats();
 }
 
-void moveOnMap()
+bool moveOnMap(WorldMap& map)
 {
     system("cls");
 
@@ -145,15 +145,21 @@ void moveOnMap()
         switch (choice)
         {
         case 0:
-			// Move north
+            map.movePlayer(0, 1);
+            return true;
         case 1:
-			// Move east
+            map.movePlayer(1, 0);
+            return true;
         case 2:
-			// Move west
+			map.movePlayer(-1, 0);
+            return true;
 		case 3:
-			// Move south
+			map.movePlayer(0, -1);
+            return true;
         case 4:
-			return;
+            return false;
+        default:
+			return false;
         }
     }
 }
@@ -185,7 +191,7 @@ void tryToOrientPlayer(baseCharacter* character)
     _getch();
 }
 
-void standardGameMenu(baseCharacter* player, string additionalMessage)
+void standardGameMenu(WorldMap& map,baseCharacter* player, string additionalMessage)
 {
 	system("cls");
     vector<string> options = {
@@ -198,12 +204,16 @@ void standardGameMenu(baseCharacter* player, string additionalMessage)
 
     while (true)
     {
-        int choice = navigateMenu(options, "WORLD MAP", additionalMessage);
+        int choice = navigateMenu(options, "WORLD - OUTSIDE", additionalMessage);
 
         switch (choice)
         {
         case 0:
-			moveOnMap();
+            if (moveOnMap(map))
+            {
+				system("cls");
+                return;
+            }
 			system("cls");
             break;
         case 1:
