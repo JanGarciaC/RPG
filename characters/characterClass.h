@@ -27,7 +27,7 @@ private:
 	int gold;
 	weapon equippedWeapon;
 	armor equippedArmor;
-	std::vector<baseObject> inventory;
+	std::vector<baseObject*> inventory;
 
 public:
 	baseCharacter() : name(""), characterClass(0), level(1),
@@ -46,7 +46,7 @@ public:
     void addAgility(int x) { agility += x; }
     void addIntelligence(int x) { intelligence += x; }
 	void addExperience(int x) { experience += x; if (experience >= 100 * pow(1.4, level - 1)) { do { experience -= 100 * pow(1.4, level - 1); levelUp(); } while (experience >= 100 * pow(1.4, level - 1)); } }
-	void addItemToInventory(const baseObject& item) { inventory.push_back(item); }
+	void addItemToInventory(baseObject* item) { inventory.push_back(item); }
 	void removeItemFromInventory(int index) { if (index >= 0 && index < inventory.size()) inventory.erase(inventory.begin() + index); }
 
 	void setOrientationSkill(float x) { orientationSkill = x; }
@@ -79,7 +79,7 @@ public:
 	float getCriticalChance() const { return criticalChance; }
 	armor getEquippedArmor() const { return equippedArmor; }
 	weapon getEquippedWeapon() const { return equippedWeapon; }
-	baseObject getInventoryItem(int index) const { if (index >= 0 && index < inventory.size()) return inventory[index]; return baseObject(); }
+	baseObject* getInventoryItem(int index) const { return inventory[index]; }
 
 	void printInventory();
 

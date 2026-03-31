@@ -6,6 +6,8 @@
 #include <iostream>
 #include <cstdlib>
 
+#include "../items/items.h"
+
 
 enum TileEvent {
     NOTHING,
@@ -25,6 +27,14 @@ enum NPCType {
 	KNIGHT,
 	ANGEL,
     DEMON
+};
+
+enum LootType {
+    JUNK,
+    WEAPON,
+    ARMOR,
+    POTION,
+    ELIXIR
 };
 
 enum BuildingType {
@@ -51,11 +61,13 @@ inline std::vector<WeightedItem<NPCType>> npcList = {
     {DEMON, 1}
 };
 
-inline std::vector<WeightedItem<std::string>> lootList = {
-    {"Sword", 25},
-    {"Shield", 25},
-    {"Potion", 40},
-    {"Armor", 10}
+inline std::vector<WeightedItem<LootType>> lootList = {
+    {JUNK, 50},
+	{POTION, 20},
+    {ELIXIR, 10},
+	{WEAPON, 7.5},
+    {ARMOR, 7.5}
+
 };
 
 inline std::vector<WeightedItem<BuildingType>> buildingList = {
@@ -84,7 +96,8 @@ private:
     TileEvent eventType;
 
     NPCType npc;
-    std::string loot;
+    LootType lootType;
+	baseObject* loot;
     BuildingType building;
     int money;
 
@@ -95,6 +108,8 @@ public:
 	int getX() const { return x; }
 	int getY() const { return y; }
 
+	baseObject* getLoot() { return loot; }
+	LootType getLootType() { return lootType; }
 	TileEvent getTileEvent() { return eventType; }
 	bool getCondition() { return condition; }
 	int getMoney() { return money; }

@@ -36,8 +36,8 @@ baseCharacter* characterCreation()
 
 void classWarrior::startEquipment()
 {
-	weapon startingSword("Rusty Sword", "Old rusty sword, full of cracks.", 1.6, 50, 1.2f, 1, 5, 0);
-	armor startingArmor("Rusty Chainmail", "Old chainmail, gives you a false sensation of security.", 20, 50, 1, 1, 5, 0);
+	weapon startingSword(weaponTemplates[0]);
+	armor startingArmor(armorTemplates[0]);
 
 	setEquippedArmor(startingArmor);
 	setEquippedWeapon(startingSword);
@@ -45,8 +45,8 @@ void classWarrior::startEquipment()
 
 void classRogue::startEquipment()
 {
-    weapon startingDagger("Rusty Dagger", "Old and Dull rusty dagger.", 1.6, 50, 1.4f, 2, 5, 0);
-    armor startingArmor("Old Leather Armor", "Old and wore down leather armor.", 10, 50, 1.4f, 2, 5, 0);
+    weapon startingDagger(weaponTemplates[1]);
+    armor startingArmor(armorTemplates[1]);
 
     setEquippedArmor(startingArmor);
     setEquippedWeapon(startingDagger);
@@ -54,8 +54,8 @@ void classRogue::startEquipment()
 
 void classMage::startEquipment()
 {
-    weapon startingStaff("Old Staff", "old wooden staff, full of splinters and cracks.", 1.3, 50, 1, 3, 5, 0);
-    armor startingRobe("Old Robe", "Old long robe. It has more holes than intact parts.", 5, 50, 1.2f, 3, 5, 0);
+    weapon startingStaff(weaponTemplates[2]);
+    armor startingRobe(armorTemplates[2]);
 
     setEquippedArmor(startingRobe);
     setEquippedWeapon(startingStaff);
@@ -198,7 +198,7 @@ void baseCharacter::printInventory()
 	}
     for (size_t i = 0; i < inventory.size(); i++)
     {
-		inventory[i].printObjectInfo();
+		inventory[i]->printObjectInfo();
         cout << endl;
     }
 }

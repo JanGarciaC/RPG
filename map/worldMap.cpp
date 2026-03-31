@@ -23,24 +23,44 @@ T getRandomWeighted(const vector<WeightedItem<T>>& list)
     return list.back().value;
 }
 
-MapTile::MapTile(int X, int Y) : x(X), y(Y), firstTime(true), condition(false), eventType(NOTHING), npc(BOAR), loot(""), building(ABANDONED_HUT), money(0)
+MapTile::MapTile(int X, int Y) : x(X), y(Y), firstTime(true), condition(false), eventType(NOTHING), npc(BOAR), lootType(JUNK), building(ABANDONED_HUT), money(0)
 {
 	int r = rand() % 10000;
 
-    if (r < 8000) {
+    if (r < 7500) {
         eventType = NOTHING;
     }
-    else if (r < 8500) {
+    else if (r < 8000) {
         eventType = NPC;
         npc = getRandomWeighted(npcList);
     }
-    else if (r < 9000) {
+    else if (r < 8500) {
         eventType = MONEY;
         money = getRandomWeighted(moneyList);
     }
-    else if (r < 9500) {
+    else if (r < 9000) {
         eventType = RANDOMLOOT;
-        loot = getRandomWeighted(lootList);
+        lootType = getRandomWeighted(lootList);
+        switch (lootType)
+        {
+        case JUNK:
+			loot = new baseObject(getRandomBaseObjectTemplate());
+            break;
+        case WEAPON:
+			loot = new weapon(getRandomWeaponTemplate());
+            break;
+        case ARMOR:
+			loot = new armor(getRandomArmorTemplate());
+            break;
+        case POTION:
+			loot = new Potion(getRandomPotionTemplate());
+            break;
+        case ELIXIR:
+			loot = new Elixir(getRandomElixirTemplate());
+            break;
+        default:
+            break;
+        }
     }
     else if (r < 9990) {
         eventType = RANDOMBUILDING;
@@ -59,7 +79,7 @@ void MapTile::createOriginTile()
     eventType = VILLAGE;
 }
 
-MapTile::MapTile() : x(0), y(0), firstTime(true), condition(false), eventType(NOTHING), npc(BOAR), loot(""), building(ABANDONED_HUT), money(0)
+MapTile::MapTile() : x(0), y(0), firstTime(true), condition(false), eventType(NOTHING), npc(BOAR), lootType(JUNK), building(ABANDONED_HUT), money(0)
 {
     do
     {
@@ -118,7 +138,31 @@ string MapTile::getTileMessage()
             message += "You see something shiny on the ground. You find " + to_string(money) + " gold! \n";
             break;
         case RANDOMLOOT:
-            message += "There is something lying on the ground. There is a " + loot + " here \n";
+            switch (lootType)
+            {   
+            case JUNK:
+				message += "You see something on the ground. It's a " + loot->getName() + "\n";
+				message += "It has been added to your inventory. \n";
+                break;
+            case WEAPON:
+				message += "You find a weapon on the ground. It's a " + loot->getName() + "\n";
+                message += "It has been added to your inventory. \n";
+                break;
+            case ARMOR:
+				message += "You find a piece of armor on the ground. It's a " + loot->getName() + "\n";
+                message += "It has been added to your inventory. \n";
+                break;
+            case POTION:
+				message += "You find a potion on the ground. It's a " + loot->getName() + "\n";
+                message += "It has been added to your inventory. \n";
+                break;
+            case ELIXIR:
+				message += "You find an elixir on the ground. It's a " + loot->getName() + "\n";
+                message += "It has been added to your inventory. \n";
+                break;
+            default:
+                break;
+            }
             break;
         case RANDOMBUILDING:
             switch (building)
@@ -240,6 +284,7 @@ MapTile& WorldMap::getTile(int x, int y)
 
     return it->second;
 }
+
 void WorldMap::movePlayer(int dx, int dy) 
 {
     currentTile->markVisited();

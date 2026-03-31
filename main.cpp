@@ -51,6 +51,11 @@ int main()
 			standardGameMenu(worldMap, player, message, header);
 			break;
 		case RANDOMLOOT:
+			if (!worldMap.getCurrentTile()->getCondition())
+			{
+				worldMap.getCurrentTile()->markCondition();
+				player->addItemToInventory(worldMap.getCurrentTile()->getLoot());
+			}
 			standardGameMenu(worldMap, player, message, header);
 			break;
 		case RANDOMBUILDING:
