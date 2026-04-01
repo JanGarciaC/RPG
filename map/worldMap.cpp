@@ -27,18 +27,18 @@ MapTile::MapTile(int X, int Y) : x(X), y(Y), firstTime(true), condition(false), 
 {
 	int r = rand() % 10000;
 
-    if (r < 7500) {
+    if (r < 4500) {
         eventType = NOTHING;
     }
-    else if (r < 8000) {
+    else if (r < 5500) {
         eventType = NPC;
         npc = getRandomWeighted(npcList);
     }
-    else if (r < 8500) {
+    else if (r < 6500) {
         eventType = MONEY;
         money = getRandomWeighted(moneyList);
     }
-    else if (r < 9000) {
+    else if (r < 8000) {
         eventType = RANDOMLOOT;
         lootType = getRandomWeighted(lootList);
         switch (lootType)
@@ -176,6 +176,9 @@ string MapTile::getTileMessage()
             case TAVERN:
                 message += "You stubmle into a tavern. Do you want to enter? \n";
                 break;
+            case GRAVEYARD:
+                message += "This field is filled with tombs, it's a graveyard. What do you do? \n";
+				break;
             case RITUAL:
                 message += "You find some sort of ritual circles drawn in the floor with blood. What do you do?\n";
                 break;

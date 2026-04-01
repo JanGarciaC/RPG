@@ -41,6 +41,7 @@ enum BuildingType {
     ABANDONED_HUT,
     RUINS,
 	TAVERN,
+	GRAVEYARD,
     RITUAL,
     CHURCH
 };
@@ -52,13 +53,13 @@ struct WeightedItem {
 };
 
 inline std::vector<WeightedItem<NPCType>> npcList = {
-    {RABBIT, 31.5},
-    {BOAR, 31.5},
+    {RABBIT, 32},
+    {BOAR, 32},
     {THIEF, 20},
     {SOLDIER, 10},
     {KNIGHT, 5},
-    {ANGEL, 1},
-    {DEMON, 1}
+    {ANGEL, 0.5},
+    {DEMON, 0.5}
 };
 
 inline std::vector<WeightedItem<LootType>> lootList = {
@@ -71,11 +72,12 @@ inline std::vector<WeightedItem<LootType>> lootList = {
 };
 
 inline std::vector<WeightedItem<BuildingType>> buildingList = {
-    {ABANDONED_HUT, 45},
+    {ABANDONED_HUT, 50},
 	{RUINS, 25},
-	{TAVERN, 20},
-    {RITUAL, 5},
-    {CHURCH, 5}
+	{TAVERN, 18},
+    {GRAVEYARD, 5},
+    {RITUAL, 1},
+    {CHURCH, 1}
 };
 
 inline std::vector<WeightedItem<int>> moneyList = {
