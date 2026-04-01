@@ -63,31 +63,37 @@ void classMage::startEquipment()
 
 int classWarrior::baseAttack()
 {
-    int damage = rand() % 4*getLevel() + getStrength() * getEquippedWeapon().getDamage();
-
+    int damage = getStrength() * getEquippedWeapon().getDamage() + rand() % (4 * getLevel()) ;
+    cout << "You attack with your weapon" << endl;
     if (rand() % 10000 < 100 * (getCriticalChance() * getEquippedWeapon().getCritModifier()))
+    {
         damage *= 2;
-
+        cout << "It's a critical strike!" << endl;
+    }
     return damage;
 }
 
 int classRogue::baseAttack()
 {
-    int damage = rand() % 4*getLevel() + getStrength() * getEquippedWeapon().getDamage();
-
-    if (rand() % 10000 < 100*(getCriticalChance() * getEquippedWeapon().getCritModifier()))
+    int damage = getStrength() * getEquippedWeapon().getDamage() + rand() % (4 * getLevel());
+    cout << "You attack with your weapon" << endl;
+    if (rand() % 10000 < 100 * (getCriticalChance() * getEquippedWeapon().getCritModifier()))
+    {
         damage *= 2;
-
+        cout << "It's a critical strike!" << endl;
+    }
     return damage;
 }
 
 int classMage::baseAttack()
 {
-    int damage = rand() % 2*getLevel() + getStrength() * getEquippedWeapon().getDamage();
-
-    if (rand() % 10000 < 100*(getCriticalChance() * getEquippedWeapon().getCritModifier()))
+    int damage = getStrength() * getEquippedWeapon().getDamage() + rand() % (4 * getLevel());
+    cout << "You attack with your weapon" << endl;
+    if (rand() % 10000 < 100 * (getCriticalChance() * getEquippedWeapon().getCritModifier()))
+    {
         damage *= 2;
-
+        cout << "It's a critical strike!" << endl;
+    }
     return damage;
 }
 
@@ -194,26 +200,4 @@ void baseCharacter::addItemToInventory(baseObject* newItem)
     }
 
     inventory.push_back({ newItem, 1 });
-}
-
-void baseCharacter::printInventory()
-{
-	cout << "Gold: " << gold << endl << endl;
-
-	cout << "////////// EQUIPPED WEAPON //////////" << endl;
-	equippedWeapon.printObjectInfo();
-
-	cout << "////////// EQUIPPED ARMOR //////////" << endl;
-	equippedArmor.printObjectInfo();
-
-	cout << "////////// INVENTORY ITEMS //////////" << endl;
-    if (inventory.empty())
-    {
-        cout << "Your inventory is empty." << endl;
-        return;
-	}
-    for (size_t i = 0; i < inventory.size(); i++)
-    {
-        cout << "Item: " << inventory[i].item->getName() << " --> Amount: " << inventory[i].quantity << endl;
-    }
 }

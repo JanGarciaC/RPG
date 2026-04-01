@@ -36,7 +36,7 @@ private:
 public:
 	baseCharacter() : name(""), characterClass(0), level(1),
         stamina(0), strength(0), agility(0), intelligence(0),
-        maxHealth(50), currentHealth(50), speed(0), evasion(0), 
+        maxHealth(100), currentHealth(100), speed(0), evasion(0), 
         criticalChance(0), gold(25), experience(0), orientationSkill(0),
 		tempStamina(0), tempStrength(0), tempAgility(0), tempIntelligence(0), 
 		buffDuration(0), divineAlignment(0) {}
@@ -93,8 +93,6 @@ public:
 	weapon getEquippedWeapon() const { return equippedWeapon; }
 	baseObject* getInventoryItem(int index) const { return inventory[index].item; }
 	std::vector<InventoryItem> getInventory() const { return inventory; }
-
-	void printInventory();
 
     virtual void calculateDerivedStats()
     {
