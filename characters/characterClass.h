@@ -1,9 +1,13 @@
 #pragma once
-#include "../utilities/utilities.h"
 #include "../items/items.h"
 #include <string>
 #include <iostream>
 #include <cmath>
+
+struct InventoryItem {
+	baseObject* item;
+	int quantity;
+};
 
 /////////////////////////////////
 // Base class Definition
@@ -16,6 +20,7 @@ private:
     int characterClass;
 	int level;	
 	int experience;
+	float divineAlignment;
 	// Character stats
     int stamina, strength, agility, intelligence;
     int maxHealth, currentHealth;
@@ -27,38 +32,44 @@ private:
 	int gold;
 	weapon equippedWeapon;
 	armor equippedArmor;
-	std::vector<baseObject*> inventory;
-
+	std::vector<InventoryItem> inventory;
 public:
 	baseCharacter() : name(""), characterClass(0), level(1),
         stamina(0), strength(0), agility(0), intelligence(0),
         maxHealth(50), currentHealth(50), speed(0), evasion(0), 
         criticalChance(0), gold(25), experience(0), orientationSkill(0),
-		tempStamina(0), tempStrength(0), tempAgility(0), tempIntelligence(0), buffDuration(0) {}
-
-    void defineName(const std::string& n) { name = n; }
-    void setCharacterClass(int c) { characterClass = c; }
-    int getCharacterClass() const { return characterClass; }
-	std::string getName() const { return name; }
+		tempStamina(0), tempStrength(0), tempAgility(0), tempIntelligence(0), 
+		buffDuration(0), divineAlignment(0) {}
 
 	void addStamina(int x) { stamina += x; }
     void addStrength(int x) { strength += x; }
     void addAgility(int x) { agility += x; }
     void addIntelligence(int x) { intelligence += x; }
+	void addTempStamina(int x, int duration) { tempStamina += x; buffDuration = duration; }
+	void addTempStrength(int x, int duration) { tempStrength += x; buffDuration = duration; }
+	void addTempAgility(int x, int duration) { tempAgility += x; buffDuration = duration; }
+	void addTempIntelligence(int x, int duration) { tempIntelligence += x; buffDuration = duration; }
+	void decrementBuffDuration() { if (buffDuration > 0) buffDuration--; if (buffDuration == 0) { tempStamina = 0; tempStrength = 0; tempAgility = 0; tempIntelligence = 0; } }
+	void addDivineAlignment(float x) { divineAlignment += x; }
 	void addExperience(int x) { experience += x; if (experience >= 100 * pow(1.4, level - 1)) { do { experience -= 100 * pow(1.4, level - 1); levelUp(); } while (experience >= 100 * pow(1.4, level - 1)); } }
-	void addItemToInventory(baseObject* item) { inventory.push_back(item); }
+	void addItemToInventory(baseObject* item);
 	void removeItemFromInventory(int index) { if (index >= 0 && index < inventory.size()) inventory.erase(inventory.begin() + index); }
 
+	void setCharacterClass(int c) { characterClass = c; }
+	void defineName(const std::string& n) { name = n; }
 	void setOrientationSkill(float x) { orientationSkill = x; }
     void setStamina(int x) { stamina = x; }
     void setStrength(int x) { strength = x; }
     void setAgility(int x) { agility = x; }
     void setIntelligence(int x) { intelligence = x; }
+	void setDivineAlignment(float x) { divineAlignment = x; }
     void modifyHealth(int x) { currentHealth += x; if (currentHealth > maxHealth) currentHealth = maxHealth; if (currentHealth < 0) currentHealth = 0; }
 	void setEquippedWeapon(const weapon& w) { equippedWeapon = w; }
 	void setEquippedArmor(const armor& a) { equippedArmor = a; }
 	void addGold(int x) { gold += x; }
 
+	std::string getName() const { return name; }
+	int getCharacterClass() const { return characterClass; }
 	int getLevel() const { return level; }
 	int getStamina() const { return stamina; }
 	int getStrength() const { return strength; }
@@ -73,20 +84,23 @@ public:
 	int getCurrentHealth() const { return currentHealth; }
     int getGold() const { return gold; }
 	int getExperience() const { return experience; }
+	float getDivineAlignment() const { return divineAlignment; }
 	float getOrientationSkill() const { return orientationSkill; }
 	float getSpeed() const { return speed; }
 	float getEvasion() const { return evasion; }
 	float getCriticalChance() const { return criticalChance; }
 	armor getEquippedArmor() const { return equippedArmor; }
 	weapon getEquippedWeapon() const { return equippedWeapon; }
-	baseObject* getInventoryItem(int index) const { return inventory[index]; }
+	baseObject* getInventoryItem(int index) const { return inventory[index].item; }
+	std::vector<InventoryItem> getInventory() const { return inventory; }
 
 	void printInventory();
 
     virtual void calculateDerivedStats()
     {
+		int diff = maxHealth - currentHealth;
         maxHealth = 50 + stamina;
-        currentHealth = maxHealth;
+        currentHealth = maxHealth - diff;
         evasion = agility * 0.5f;
         criticalChance = agility * 0.65f;
         speed = 20 + agility;

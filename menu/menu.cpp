@@ -161,20 +161,54 @@ bool moveOnMap(WorldMap& map)
     while (true)
     {
         int choice = navigateMenu(options, "MOVE TO", "");
+        system("cls");
+        printHeader("MOVING");
 
         switch (choice)
         {
         case 0:
             map.movePlayer(0, 1);
+			cout << "Going NORTH";
+			Sleep(150);
+			cout << ".";
+            Sleep(150);
+            cout << ".";
+            Sleep(150);
+            cout << ".";
+            Sleep(150);
             return true;
         case 1:
             map.movePlayer(1, 0);
+            cout << "Going EAST";
+            Sleep(150);
+            cout << ".";
+            Sleep(150);
+            cout << ".";
+            Sleep(150);
+            cout << ".";
+            Sleep(150);
             return true;
         case 2:
 			map.movePlayer(-1, 0);
+            cout << "Going WEST";
+            Sleep(150);
+            cout << ".";
+            Sleep(150);
+            cout << ".";
+            Sleep(150);
+            cout << ".";
+            Sleep(150);
             return true;
 		case 3:
 			map.movePlayer(0, -1);
+            cout << "Going SOUTH";
+            Sleep(150);
+            cout << ".";
+            Sleep(150);
+            cout << ".";
+            Sleep(150);
+            cout << ".";
+            Sleep(150);
             return true;
         case 4:
             return false;
@@ -197,9 +231,28 @@ void displayCharacterInventory(baseCharacter* character)
 {
     system("cls");
     printHeader("INVENTORY");
-	character->printInventory();
-    cout << endl << "Press any key to return..." << endl;
-    _getch();
+    while (true)
+    {
+        int option = navigateInventory(character);
+        if (option == -1)
+        {
+            cout << endl << "Press any key to return..." << endl;
+            _getch();
+            return;
+        }
+        else if (option == character->getInventory().size())
+        {
+            return;
+        }
+        else
+        {
+            system("cls");
+            printHeader(character->getInventory()[option].item->getName());
+            character->getInventory()[option].item->printObjectInfo();
+            cout << endl << "Press any key to return..." << endl;
+            _getch();
+        }
+    }
 }
 
 void standardGameMenu(WorldMap& map,baseCharacter* player, const string& additionalMessage, const string& header)

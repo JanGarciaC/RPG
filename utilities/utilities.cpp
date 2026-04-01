@@ -106,6 +106,92 @@ int navigateMenu(const vector<string>& options, string header, string additional
     }
 }
 
+int navigateInventory(baseCharacter* player)
+{
+    int selected = 0;
+
+    vector<string> options;
+
+    for (size_t i = 0; i < player->getInventory().size(); i++)
+    {
+        options.push_back('"' + player->getInventory()[i].item->getName() + '"' + " - amount: " + to_string(player->getInventory()[i].quantity));
+	}
+
+	options.push_back("return to main menu....");
+
+    if (options.size() > 1)
+    {
+    while (true)
+    {
+        moveCursorToTop();
+        printHeader("INVENTORY");
+
+        cout << "\r" << string(80, ' ') << "\r";
+		cout << "Gold: " << player->getGold() << endl << endl;
+
+        cout << "\r" << string(80, ' ') << "\r";
+		cout << "////////// EQUIPPED WEAPON //////////" << endl;
+		player->getEquippedWeapon().printObjectInfo();
+        cout << endl;
+
+		cout << "\r" << string(80, ' ') << "\r";
+		cout << "////////// EQUIPPED ARMOR //////////" << endl;
+		player->getEquippedArmor().printObjectInfo();
+        cout << endl;
+
+        cout << "\r" << string(80, ' ') << "\r";
+		cout << "////////// INVENTORY ITEMS //////////" << endl;
+        for (int i = 0; i < options.size(); i++)
+        {
+            cout << "\r" << string(80, ' ') << "\r";
+            cout << (i == selected ? "> " : "  ") << options[i] << endl;
+        }
+
+        MenuAction action = getMenuInput();
+
+        switch (action)
+        {
+        case ACTION_UP:
+            selected = (selected - 1 + options.size()) % options.size();
+            break;
+
+        case ACTION_DOWN:
+            selected = (selected + 1) % options.size();
+            break;
+
+        case ACTION_SELECT:
+            return selected;
+
+        default:
+            break;
+        }
+    }
+    }
+    else
+    {
+        moveCursorToTop();
+        printHeader("INVENTORY");
+
+        cout << "\r" << string(80, ' ') << "\r";
+        cout << "Gold: " << player->getGold() << endl << endl;
+
+        cout << "\r" << string(80, ' ') << "\r";
+        cout << "////////// EQUIPPED WEAPON //////////" << endl;
+        player->getEquippedWeapon().printObjectInfo();
+        cout << endl;
+
+        cout << "\r" << string(80, ' ') << "\r";
+        cout << "////////// EQUIPPED ARMOR //////////" << endl;
+        player->getEquippedArmor().printObjectInfo();
+        cout << endl;
+
+        cout << "\r" << string(80, ' ') << "\r";
+        cout << "////////// INVENTORY ITEMS //////////" << endl;
+        cout << "\r" << string(80, ' ') << "\r" << "Your inventory is empty." << endl;
+        return -1;
+    }
+}
+
 int navigateMenuAdvanced(function<vector<string>()> getOptions, string header, function<string()> getMessage, function<void(int, MenuAction)> onAction)
 {
     int selected = 0;

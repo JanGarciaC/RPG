@@ -81,12 +81,13 @@ inline std::vector<WeightedItem<BuildingType>> buildingList = {
 };
 
 inline std::vector<WeightedItem<int>> moneyList = {
-    {2, 10},
-    {3, 30},
-    {5, 30},
-    {10, 20},
-    {20, 9.9},
-    {100, 0.1}
+    {1, 40},
+    {2, 20},
+    {3, 10},
+    {5, 10},
+    {10, 5},
+    {20, 4.5},
+    {50, 0.5}
 };
 
 class MapTile {

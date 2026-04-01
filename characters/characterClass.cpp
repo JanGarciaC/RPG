@@ -99,7 +99,8 @@ void baseCharacter::displayCharacterInfo()
     cout << "Class: " << (characterClass == 1 ? "Warrior" : characterClass == 2 ? "Rogue" : characterClass == 3 ? "Mage" : "None") << endl;
     cout << "Level: " << level << endl;
 	cout << "Experience: " << experience << "/" << 100 * pow(1.4, level - 1) << endl;
-    cout << "Health: " << currentHealth << "/" << maxHealth << endl << endl;
+    cout << "Health: " << currentHealth << "/" << maxHealth << endl; 
+    cout << "Divine Alignment: " << divineAlignment <<  endl << endl;
 
     cout << "BASIC STATS:" << endl;
     if (tempStamina == 0)
@@ -144,7 +145,8 @@ void classMage::displayCharacterInfo()
     cout << "Level: " << getLevel() << endl;
     cout << "Experience" << getExperience() << "/" << 100 * pow(1.4, getLevel() - 1) << endl;
     cout << "Health: " << getCurrentHealth() << "/" << getMaxHealth() << endl;
-	cout << "Mana: " << getCurrentMana() << "/" << getMaxMana() << endl << endl;
+	cout << "Mana: " << getCurrentMana() << "/" << getMaxMana() << endl;
+    cout << "Divine Alignment: " << getDivineAlignment() << endl << endl;
 
     cout << "BASIC STATS:" << endl;
     if (getTempStamina() == 0)
@@ -182,6 +184,18 @@ void classMage::displayCharacterInfo()
     cout << "Orientation Skill: " << getOrientationSkill() << "%" << endl;
 }
 
+void baseCharacter::addItemToInventory(baseObject* newItem) 
+{
+    for (auto& entry : inventory) {
+        if (entry.item->getName() == newItem->getName()) {
+            entry.quantity++;
+            return;
+        }
+    }
+
+    inventory.push_back({ newItem, 1 });
+}
+
 void baseCharacter::printInventory()
 {
 	cout << "Gold: " << gold << endl << endl;
@@ -200,7 +214,6 @@ void baseCharacter::printInventory()
 	}
     for (size_t i = 0; i < inventory.size(); i++)
     {
-		inventory[i]->printObjectInfo();
-        cout << endl;
+        cout << "Item: " << inventory[i].item->getName() << " --> Amount: " << inventory[i].quantity << endl;
     }
 }
