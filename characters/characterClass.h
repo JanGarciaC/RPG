@@ -99,7 +99,7 @@ public:
     virtual void calculateDerivedStats()
     {
 		int diff = maxHealth - currentHealth;
-        maxHealth = 50 + stamina;
+        maxHealth = 100 + 2*stamina*level;
         currentHealth = maxHealth - diff;
         evasion = agility * 0.5f;
         criticalChance = agility * 0.65f;
