@@ -166,11 +166,9 @@ void introductionSequence()
     Sleep(3000);
 	cout << "The only thing you remember is your name and some skills you had before." << endl;
     Sleep(3000);
-	cout << "In your backpack you can find some gold coins, basic supplies and your old equipment. There is also a strange device." << endl;
+	cout << "In your backpack you can find a few gold coins, basic supplies and your old equipment." << endl;
     Sleep(3000);
-    cout << "The device starts to glow and you can feel it connect with your mind." << endl;
-	Sleep(3000);
-	cout << "Your mission is to find your purpose in this world. You can try to fix it, or maybe, end it. That's up to you." << endl;
+	cout << "You have a feeling that there is something happening, something bigger than you can imagine." << endl;
     Sleep(3000);
     cout << endl << "Press enter to continue..." << endl;
     int key = 0;
