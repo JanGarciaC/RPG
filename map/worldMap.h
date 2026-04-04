@@ -7,6 +7,7 @@
 #include <cstdlib>
 
 #include "../items/items.h"
+#include "../characters/enemies.h"
 
 
 enum TileEvent {
@@ -99,6 +100,7 @@ private:
     TileEvent eventType;
 
     NPCType npc;
+    genericEnemy* enemy;
     LootType lootType;
 	baseObject* loot;
     BuildingType building;

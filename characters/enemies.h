@@ -39,7 +39,7 @@ public:
 
 	void displayInfo(int playerInt);
 
-	virtual int attack();
+	virtual int attack() { return 0; };
 };
 
 class boar : public genericEnemy

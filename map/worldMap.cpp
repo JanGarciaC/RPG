@@ -206,24 +206,31 @@ string MapTile::getTileMessage()
                 {
                 case BOAR:
                     message += "You encounter a Wild Boar. It looks aggressive! \n";
+                    enemy = new boar;
                     break;
                 case RABBIT:
                     message += "You see a Rabbit hopping around. It seems harmless, but edible. \n";
+                    enemy = new rabbit;
                     break;
                 case THIEF:
                     message += "A shady figure approaches you. It's a Thief! He wants to steal some of your gold. \n";
+                    enemy = new thief;
                     break;
                 case SOLDIER:
                     message += "You see a Soldier patrolling the area. He looks angry and hungry. \n";
+                    enemy = new soldier;
                     break;
                 case KNIGHT:
                     message += "A Knight in shining armor stands before you. He looks possesed by something from another world. \n";
+                    enemy = new knight;
                     break;
                 case ANGEL:
                     message += "A beautyfull Angel appears in front of you. It's radiant light shines on you. \n";
+                    enemy = new angel;
                     break;
                 case DEMON:
                     message += "A terrifying Demon emerges from the shadows. You feel something terrible is about to happen. \n";
+                    enemy = new demon;
                     break;
                 default:
                     break;
